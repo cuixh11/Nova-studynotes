@@ -86,13 +86,13 @@
   
   得到的这些点就是上面提到的单位根，记做下图标记。
   
-  ![截图](44dad5adecb503c54098b7c41ae3a2fb.png)
+  ![截图](44dad5adecb503c54098b7c41ae3a2fb.png?raw=true)
   
   <br/>
   
   我们来考虑一下它们的通项公式，由下面的图应该会有
   
-  <img src="ade14b1aaf2813a6abbb3f76e3749f34.png" alt="截图" style="zoom:50%;" />
+  <img src="ade14b1aaf2813a6abbb3f76e3749f34.png" alt="截图" style="zoom:50%;" /?raw=true>
   
   <br/>
   
