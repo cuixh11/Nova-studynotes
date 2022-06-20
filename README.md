@@ -19,4 +19,4 @@
 
 [sdk环境搭建](sdk环境搭建/sdk环境搭建.md)
 
-其他见[all PDF](/all PDF)
+其他见[all PDF](#all PDF)
