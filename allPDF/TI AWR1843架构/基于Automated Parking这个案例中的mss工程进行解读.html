@@ -1,0 +1,1102 @@
+<!doctype html>
+      <html>
+      <head>
+        <meta charset="utf-8"/>
+        <title>基于Automated Parking这个案例中的mss工程进行解读</title>
+        
+        <style>
+          html, body { margin: 0; padding: 0; background-color: #ffffff; }
+          .markdown-body { box-sizing: border-box; min-width: 200px; max-width: 980px; margin: 0 auto; padding: 45px; }
+          @media (max-width: 767px) { .markdown-body { padding: 15px; } }
+          .markdown-body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  line-height: 1.5;
+  color: #24292e;
+  font-family: system-ui, -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;;
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.markdown-body details {
+  display: block;
+}
+
+.markdown-body summary {
+  display: list-item;
+}
+
+.markdown-body a {
+  background-color: initial;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline-width: 0;
+}
+
+.markdown-body strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+.markdown-body img {
+  border-style: none;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+  font-family: monospace,monospace;
+  font-size: 1em;
+}
+
+.markdown-body hr {
+  box-sizing: initial;
+  height: 0;
+  overflow: visible;
+}
+
+.markdown-body input {
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body input {
+  overflow: visible;
+}
+
+.markdown-body [type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body * {
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.markdown-body a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body strong {
+  font-weight: 600;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+}
+
+.markdown-body hr:after,
+.markdown-body hr:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body details summary {
+  cursor: pointer;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body h1 {
+  font-size: 32px;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  font-weight: 600;
+}
+
+.markdown-body h2 {
+  font-size: 24px;
+}
+
+.markdown-body h3 {
+  font-size: 20px;
+}
+
+.markdown-body h3,
+.markdown-body h4 {
+  font-weight: 600;
+}
+
+.markdown-body h4 {
+  font-size: 16px;
+}
+
+.markdown-body h5 {
+  font-size: 14px;
+}
+
+.markdown-body h5,
+.markdown-body h6 {
+  font-weight: 600;
+}
+
+.markdown-body h6 {
+  font-size: 12px;
+}
+
+.markdown-body p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ol ol ol,
+.markdown-body ol ul ol,
+.markdown-body ul ol ol,
+.markdown-body ul ul ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre {
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body input::-webkit-inner-spin-button,
+.markdown-body input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.markdown-body :checked+.radio-label {
+  position: relative;
+  z-index: 1;
+  border-color: #0366d6;
+}
+
+.markdown-body hr {
+  border-bottom-color: #eee;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+.markdown-body:after,
+.markdown-body:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body:after {
+  clear: both;
+}
+
+.markdown-body>:first-child {
+  margin-top: 0!important;
+}
+
+.markdown-body>:last-child {
+  margin-bottom: 0!important;
+}
+
+.markdown-body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.markdown-body blockquote,
+.markdown-body details,
+.markdown-body dl,
+.markdown-body ol,
+.markdown-body p,
+.markdown-body pre,
+.markdown-body table,
+.markdown-body ul {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: .25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e1e4e8;
+  border: 0;
+}
+
+.markdown-body blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: .25em solid #dfe2e5;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  padding-bottom: .3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h2 {
+  font-size: 1.5em;
+}
+
+.markdown-body h3 {
+  font-size: 1.25em;
+}
+
+.markdown-body h4 {
+  font-size: 1em;
+}
+
+.markdown-body h5 {
+  font-size: .875em;
+}
+
+.markdown-body h6 {
+  font-size: .85em;
+  color: #6a737d;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 2em;
+}
+
+.markdown-body ol ol,
+.markdown-body ol ul,
+.markdown-body ul ol,
+.markdown-body ul ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li {
+  word-wrap: break-all;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body li+li, .markdown-body li > ul {
+  margin-top: .25em;
+}
+
+.markdown-body ul li.task-list-item {
+  position: relative;
+  appearance: none;
+  list-style: none;
+}
+
+.markdown-body ul li.task-list-item.checked {
+  text-decoration: line-through;
+  color: #bdbdbd;
+}
+
+.markdown-body ul li.task-list-item::before {
+  content: '';
+  width: 13px;
+  height: 13px;
+  background-color: #fff;
+  position: absolute;
+  left: -28px;
+  top: 4px;
+  border-radius: 2px;
+  border: 2px solid #757575;
+}
+
+.markdown-body ul li.task-list-item.checked::before {
+  background-color: #1976d2;
+  border-color: #1976d2;
+}
+
+.markdown-body ul li.task-list-item.checked::after {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 5px;
+  width: 4px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+.markdown-body table th {
+  font-weight: 600;
+}
+
+.markdown-body table td,
+.markdown-body table th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  box-sizing: initial;
+  background-color: #fff;
+}
+
+.markdown-body img[align=right] {
+  padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+  padding-right: 20px;
+}
+
+.markdown-body code {
+  padding: .2em .4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: initial;
+  border: 0;
+}
+
+.markdown-body mark {
+  background-color: #fff8c5;
+}
+          .ace-tm{ background: transparent!important; }.ace_static_highlight{ font-size: unset!important; }.ace_static_highlight {font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', 'Droid Sans Mono', monospace;font-size: 12px;white-space: pre-wrap}.ace_static_highlight .ace_gutter {width: 2em;text-align: right;padding: 0 3px 0 0;margin-right: 3px;contain: none;}.ace_static_highlight.ace_show_gutter .ace_line {padding-left: 2.6em;}.ace_static_highlight .ace_line { position: relative; }.ace_static_highlight .ace_gutter-cell {-moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;user-select: none;top: 0;bottom: 0;left: 0;position: absolute;}.ace_static_highlight .ace_gutter-cell:before {content: counter(ace_line, decimal);counter-increment: ace_line;}.ace_static_highlight {counter-reset: ace_line;}.ace-tm .ace_gutter {background: #f0f0f0;color: #333;}.ace-tm .ace_print-margin {width: 1px;background: #e8e8e8;}.ace-tm .ace_fold {background-color: #6B72E6;}.ace-tm {background-color: #FFFFFF;color: black;}.ace-tm .ace_cursor {color: black;}.ace-tm .ace_invisible {color: rgb(191, 191, 191);}.ace-tm .ace_storage,.ace-tm .ace_keyword {color: blue;}.ace-tm .ace_constant {color: rgb(197, 6, 11);}.ace-tm .ace_constant.ace_buildin {color: rgb(88, 72, 246);}.ace-tm .ace_constant.ace_language {color: rgb(88, 92, 246);}.ace-tm .ace_constant.ace_library {color: rgb(6, 150, 14);}.ace-tm .ace_invalid {background-color: rgba(255, 0, 0, 0.1);color: red;}.ace-tm .ace_support.ace_function {color: rgb(60, 76, 114);}.ace-tm .ace_support.ace_constant {color: rgb(6, 150, 14);}.ace-tm .ace_support.ace_type,.ace-tm .ace_support.ace_class {color: rgb(109, 121, 222);}.ace-tm .ace_keyword.ace_operator {color: rgb(104, 118, 135);}.ace-tm .ace_string {color: rgb(3, 106, 7);}.ace-tm .ace_comment {color: rgb(76, 136, 107);}.ace-tm .ace_comment.ace_doc {color: rgb(0, 102, 255);}.ace-tm .ace_comment.ace_doc.ace_tag {color: rgb(128, 159, 191);}.ace-tm .ace_constant.ace_numeric {color: rgb(0, 0, 205);}.ace-tm .ace_variable {color: rgb(49, 132, 149);}.ace-tm .ace_xml-pe {color: rgb(104, 104, 91);}.ace-tm .ace_entity.ace_name.ace_function {color: #0000A2;}.ace-tm .ace_heading {color: rgb(12, 7, 255);}.ace-tm .ace_list {color:rgb(185, 6, 144);}.ace-tm .ace_meta.ace_tag {color:rgb(0, 22, 142);}.ace-tm .ace_string.ace_regex {color: rgb(255, 0, 0)}.ace-tm .ace_marker-layer .ace_selection {background: rgb(181, 213, 255);}.ace-tm.ace_multiselect .ace_selection.ace_start {box-shadow: 0 0 3px 0px white;}.ace-tm .ace_marker-layer .ace_step {background: rgb(252, 255, 0);}.ace-tm .ace_marker-layer .ace_stack {background: rgb(164, 229, 101);}.ace-tm .ace_marker-layer .ace_bracket {margin: -1px 0 0 -1px;border: 1px solid rgb(192, 192, 192);}.ace-tm .ace_marker-layer .ace_active-line {background: rgba(0, 0, 0, 0.07);}.ace-tm .ace_gutter-active-line {background-color : #dcdcdc;}.ace-tm .ace_marker-layer .ace_selected-word {background: rgb(250, 250, 255);border: 1px solid rgb(200, 200, 250);}.ace-tm .ace_indent-guide {background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==") right repeat-y;}
+        </style>
+      </head>
+      <body>
+        <article class="markdown-body">
+          <h1>dss_main.c</h1>
+<pre><code class="language-c_cpp"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'><span class='ace_storage ace_type'>int32_t</span> <span class='ace_identifier'>main</span> <span class='ace_paren ace_lparen'>(</span><span class='ace_storage ace_type'>void</span><span class='ace_paren ace_rparen'>)</span>
+</div><div class='ace_line'><span class='ace_paren ace_lparen'>{</span>
+</div><div class='ace_line'>    <span class='ace_identifier'>Task_Params</span>        <span class='ace_identifier'>taskParams</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>    <span class='ace_storage ace_type'>int32_t</span>         <span class='ace_identifier'>errCode</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>    <span class='ace_identifier'>SOC_Cfg</span>         <span class='ace_identifier'>socCfg</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>    <span class='ace_comment'>/* Initialize the ESM: Dont clear errors as TI RTOS does it */</span>
+</div><div class='ace_line'>    <span class='ace_identifier'>ESM_init</span><span class='ace_paren ace_lparen'>(</span><span class='ace_constant ace_numeric'>0U</span><span class='ace_paren ace_rparen'>)</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>    <span class='ace_comment'>/* Initialize the global variables */</span>
+</div><div class='ace_line'>    <span class='ace_support ace_function ace_C99 ace_c'>memset</span> <span class='ace_paren ace_lparen'>((</span><span class='ace_storage ace_type'>void</span><span class='ace_keyword ace_operator'>*</span><span class='ace_paren ace_rparen'>)</span><span class='ace_keyword ace_operator'>&#38;</span><span class='ace_identifier'>gMrrMSSMCB</span><span class='ace_punctuation ace_operator'>,</span> <span class='ace_constant ace_numeric'>0</span><span class='ace_punctuation ace_operator'>,</span> <span class='ace_keyword ace_operator'>sizeof</span><span class='ace_paren ace_lparen'>(</span><span class='ace_identifier'>Mrr_MSS_MCB</span><span class='ace_paren ace_rparen'>))</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>    <span class='ace_comment'>/* Initialize the SOC configuration: */</span>
+</div><div class='ace_line'>    <span class='ace_support ace_function ace_C99 ace_c'>memset</span> <span class='ace_paren ace_lparen'>((</span><span class='ace_storage ace_type'>void</span> <span class='ace_keyword ace_operator'>*</span><span class='ace_paren ace_rparen'>)</span><span class='ace_keyword ace_operator'>&#38;</span><span class='ace_identifier'>socCfg</span><span class='ace_punctuation ace_operator'>,</span> <span class='ace_constant ace_numeric'>0</span><span class='ace_punctuation ace_operator'>,</span> <span class='ace_keyword ace_operator'>sizeof</span><span class='ace_paren ace_lparen'>(</span><span class='ace_identifier'>SOC_Cfg</span><span class='ace_paren ace_rparen'>))</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>    <span class='ace_comment'>/* Populate the SOC configuration: */</span>
+</div><div class='ace_line'>    <span class='ace_identifier'>socCfg</span><span class='ace_punctuation ace_operator'>.</span><span class='ace_identifier'>clockCfg</span> <span class='ace_keyword ace_operator'>=</span> <span class='ace_identifier'>SOC_SysClock_INIT</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>    <span class='ace_comment'>/* Initialize the SOC Module: This is done as soon as the application is started</span>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_comment'> * to ensure that the MPU is correctly configured. */</span>
+</div><div class='ace_line'>    <span class='ace_identifier'>gMrrMSSMCB</span><span class='ace_punctuation ace_operator'>.</span><span class='ace_identifier'>socHandle</span> <span class='ace_keyword ace_operator'>=</span> <span class='ace_identifier'>SOC_init</span> <span class='ace_paren ace_lparen'>(</span><span class='ace_keyword ace_operator'>&#38;</span><span class='ace_identifier'>socCfg</span><span class='ace_punctuation ace_operator'>,</span> <span class='ace_keyword ace_operator'>&#38;</span><span class='ace_identifier'>errCode</span><span class='ace_paren ace_rparen'>)</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>    <span class='ace_keyword ace_control'>if</span> <span class='ace_paren ace_lparen'>(</span><span class='ace_identifier'>gMrrMSSMCB</span><span class='ace_punctuation ace_operator'>.</span><span class='ace_identifier'>socHandle</span> <span class='ace_keyword ace_operator'>==</span> <span class='ace_constant ace_language'>NULL</span><span class='ace_paren ace_rparen'>)</span>
+</div><div class='ace_line'>    <span class='ace_paren ace_lparen'>{</span>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    <span class='ace_identifier'>System_printf</span> <span class='ace_paren ace_lparen'>(</span><span class='ace_string ace_start'>&#34;</span><span class='ace_string'>Error: SOC Module Initialization failed [Error code </span><span class='ace_constant ace_language ace_escape'>%d</span><span class='ace_string'>]</span><span class='ace_constant ace_language ace_escape'>\n</span><span class='ace_string ace_end'>&#34;</span><span class='ace_punctuation ace_operator'>,</span> <span class='ace_identifier'>errCode</span><span class='ace_paren ace_rparen'>)</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    <span class='ace_keyword ace_control'>return</span> <span class='ace_constant ace_numeric'>-1</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>    <span class='ace_paren ace_rparen'>}</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>    <span class='ace_comment'>/* Check if the SOC is a secure device */</span>
+</div><div class='ace_line'>    <span class='ace_keyword ace_control'>if</span> <span class='ace_paren ace_lparen'>(</span><span class='ace_identifier'>SOC_isSecureDevice</span><span class='ace_paren ace_lparen'>(</span><span class='ace_identifier'>gMrrMSSMCB</span><span class='ace_punctuation ace_operator'>.</span><span class='ace_identifier'>socHandle</span><span class='ace_punctuation ace_operator'>,</span> <span class='ace_keyword ace_operator'>&#38;</span><span class='ace_identifier'>errCode</span><span class='ace_paren ace_rparen'>))</span>
+</div><div class='ace_line'>    <span class='ace_paren ace_lparen'>{</span>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    <span class='ace_comment'>/* Disable firewall for JTAG and LOGGER (UART) which is needed by the demo */</span>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    <span class='ace_identifier'>SOC_controlSecureFirewall</span><span class='ace_paren ace_lparen'>(</span><span class='ace_identifier'>gMrrMSSMCB</span><span class='ace_punctuation ace_operator'>.</span><span class='ace_identifier'>socHandle</span><span class='ace_punctuation ace_operator'>,</span>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>  <span class='ace_paren ace_lparen'>(</span><span class='ace_storage ace_type'>uint32_t</span><span class='ace_paren ace_rparen'>)</span><span class='ace_paren ace_lparen'>(</span><span class='ace_identifier'>SOC_SECURE_FIREWALL_JTAG</span> <span class='ace_keyword ace_operator'>|</span> <span class='ace_identifier'>SOC_SECURE_FIREWALL_LOGGER</span><span class='ace_paren ace_rparen'>)</span><span class='ace_punctuation ace_operator'>,</span>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>  <span class='ace_identifier'>SOC_SECURE_FIREWALL_DISABLE</span><span class='ace_punctuation ace_operator'>,</span>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>  <span class='ace_keyword ace_operator'>&#38;</span><span class='ace_identifier'>errCode</span><span class='ace_paren ace_rparen'>)</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>    <span class='ace_paren ace_rparen'>}</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>    <span class='ace_comment'>/* Initialize the Task Parameters. */</span>
+</div><div class='ace_line'>    <span class='ace_identifier'>Task_Params_init</span><span class='ace_paren ace_lparen'>(</span><span class='ace_keyword ace_operator'>&#38;</span><span class='ace_identifier'>taskParams</span><span class='ace_paren ace_rparen'>)</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>    <span class='ace_identifier'>taskParams</span><span class='ace_punctuation ace_operator'>.</span><span class='ace_identifier'>priority</span> <span class='ace_keyword ace_operator'>=</span> <span class='ace_constant ace_numeric'>3</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>    <span class='ace_identifier'>Task_create</span><span class='ace_paren ace_lparen'>(</span><span class='ace_identifier'>MRR_MSS_initTask</span><span class='ace_punctuation ace_operator'>,</span> <span class='ace_keyword ace_operator'>&#38;</span><span class='ace_identifier'>taskParams</span><span class='ace_punctuation ace_operator'>,</span> <span class='ace_constant ace_language'>NULL</span><span class='ace_paren ace_rparen'>)</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>    <span class='ace_comment'>/* Start BIOS */</span>
+</div><div class='ace_line'>    <span class='ace_identifier'>BIOS_start</span><span class='ace_paren ace_lparen'>(</span><span class='ace_paren ace_rparen'>)</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'>    <span class='ace_keyword ace_control'>return</span> <span class='ace_constant ace_numeric'>0</span><span class='ace_punctuation ace_operator'>;</span>
+</div><div class='ace_line'><span class='ace_paren ace_rparen'>}</span>
+</div><div class='ace_line'>
+</div></div></div></code></pre>
+<pre><code class="language-在这个main函数中可以看到首先定义了三个参数第一个是任务的参数，第二个是错误信息的代号，第三个片上操作系统的配置，"><div class='ace-tm'><div class='ace_static_highlight' style='counter-reset:ace_line 0'><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>的</span>ESM_init(0U)<span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>不</span><span class='ace_cjk' style='width:NaNpx'>太</span><span class='ace_cjk' style='width:NaNpx'>重</span><span class='ace_cjk' style='width:NaNpx'>要</span><span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>来</span><span class='ace_cjk' style='width:NaNpx'>两</span><span class='ace_cjk' style='width:NaNpx'>个</span>memset<span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>分</span><span class='ace_cjk' style='width:NaNpx'>别</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_cjk' style='width:NaNpx'>于</span><span class='ace_cjk' style='width:NaNpx'>将</span><span class='ace_cjk' style='width:NaNpx'>全</span><span class='ace_cjk' style='width:NaNpx'>局</span><span class='ace_cjk' style='width:NaNpx'>变</span><span class='ace_cjk' style='width:NaNpx'>量</span>gMrrMSSMCB<span class='ace_cjk' style='width:NaNpx'>和</span><span class='ace_cjk' style='width:NaNpx'>片</span><span class='ace_cjk' style='width:NaNpx'>上</span><span class='ace_cjk' style='width:NaNpx'>系</span><span class='ace_cjk' style='width:NaNpx'>统</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>配</span><span class='ace_cjk' style='width:NaNpx'>置</span>socCfg<span class='ace_cjk' style='width:NaNpx'>进</span><span class='ace_cjk' style='width:NaNpx'>行</span><span class='ace_cjk' style='width:NaNpx'>初</span><span class='ace_cjk' style='width:NaNpx'>始</span><span class='ace_cjk' style='width:NaNpx'>化</span><span class='ace_cjk' style='width:NaNpx'>，</span>[memset<span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span>](https://www.runoob.com/cprogramming/c-function-memset.html)
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>片</span><span class='ace_cjk' style='width:NaNpx'>上</span><span class='ace_cjk' style='width:NaNpx'>系</span><span class='ace_cjk' style='width:NaNpx'>统</span><span class='ace_cjk' style='width:NaNpx'>初</span><span class='ace_cjk' style='width:NaNpx'>始</span><span class='ace_cjk' style='width:NaNpx'>化</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>置</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>时</span><span class='ace_cjk' style='width:NaNpx'>钟</span><span class='ace_cjk' style='width:NaNpx'>为</span>SOC_SysClock_INIT<span class='ace_cjk' style='width:NaNpx'>。</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>来</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>检</span><span class='ace_cjk' style='width:NaNpx'>查</span><span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>备</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>否</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>一</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>安</span><span class='ace_cjk' style='width:NaNpx'>全</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>备</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>应</span><span class='ace_cjk' style='width:NaNpx'>该</span><span class='ace_cjk' style='width:NaNpx'>与</span><span class='ace_cjk' style='width:NaNpx'>你</span><span class='ace_cjk' style='width:NaNpx'>电</span><span class='ace_cjk' style='width:NaNpx'>脑</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>防</span><span class='ace_cjk' style='width:NaNpx'>火</span><span class='ace_cjk' style='width:NaNpx'>墙</span><span class='ace_cjk' style='width:NaNpx'>开</span><span class='ace_cjk' style='width:NaNpx'>没</span><span class='ace_cjk' style='width:NaNpx'>开</span><span class='ace_cjk' style='width:NaNpx'>有</span><span class='ace_cjk' style='width:NaNpx'>关</span><span class='ace_cjk' style='width:NaNpx'>系</span>(<span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>人</span><span class='ace_cjk' style='width:NaNpx'>猜</span><span class='ace_cjk' style='width:NaNpx'>想</span>)<span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>~~~~<span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>来</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>任</span><span class='ace_cjk' style='width:NaNpx'>务</span><span class='ace_cjk' style='width:NaNpx'>参</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>初</span><span class='ace_cjk' style='width:NaNpx'>始</span><span class='ace_cjk' style='width:NaNpx'>化</span><span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>里</span><span class='ace_cjk' style='width:NaNpx'>优</span><span class='ace_cjk' style='width:NaNpx'>先</span><span class='ace_cjk' style='width:NaNpx'>级</span><span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>置</span><span class='ace_cjk' style='width:NaNpx'>为</span>3<span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>~~~~<span class='ace_cjk' style='width:NaNpx'>堆</span><span class='ace_cjk' style='width:NaNpx'>栈</span><span class='ace_cjk' style='width:NaNpx'>大</span><span class='ace_cjk' style='width:NaNpx'>小</span><span class='ace_cjk' style='width:NaNpx'>为</span>3*1024
+</div><div class='ace_line'>
+</div><div class='ace_line'>~~~~<span class='ace_cjk' style='width:NaNpx'>然</span><span class='ace_cjk' style='width:NaNpx'>后</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>执</span><span class='ace_cjk' style='width:NaNpx'>行</span>Task_create<span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>第</span><span class='ace_cjk' style='width:NaNpx'>一</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>参</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>一</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>指</span><span class='ace_cjk' style='width:NaNpx'>针</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>要</span><span class='ace_cjk' style='width:NaNpx'>对</span>MRR_MSS_initTask<span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>进</span><span class='ace_cjk' style='width:NaNpx'>行</span><span class='ace_cjk' style='width:NaNpx'>回</span><span class='ace_cjk' style='width:NaNpx'>调</span>(<span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>包</span><span class='ace_cjk' style='width:NaNpx'>括</span><span class='ace_cjk' style='width:NaNpx'>了</span><span class='ace_cjk' style='width:NaNpx'>所</span><span class='ace_cjk' style='width:NaNpx'>有</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>容</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>很</span><span class='ace_cjk' style='width:NaNpx'>重</span><span class='ace_cjk' style='width:NaNpx'>要</span>)<span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>待</span><span class='ace_cjk' style='width:NaNpx'>会</span><span class='ace_cjk' style='width:NaNpx'>再</span><span class='ace_cjk' style='width:NaNpx'>看</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>来</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span>BIOS_start()<span class='ace_cjk' style='width:NaNpx'>了</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>启</span><span class='ace_cjk' style='width:NaNpx'>动</span><span class='ace_cjk' style='width:NaNpx'>你</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>备</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>
+</div><div class='ace_line'>&#60;br/>
+</div><div class='ace_line'>
+</div><div class='ace_line'># MRR_MSS_initTask.c
+</div><div class='ace_line'>
+</div><div class='ace_line'>```c_cpp
+</div><div class='ace_line'>static void MRR_MSS_initTask (UArg arg0, UArg arg1)
+</div><div class='ace_line'>{
+</div><div class='ace_line'>    int32_t                 errCode;
+</div><div class='ace_line'>    MMWave_InitCfg          initCfg;
+</div><div class='ace_line'>    UART_Params             uartParams;
+</div><div class='ace_line'>    Task_Params                taskParams;
+</div><div class='ace_line'>    SOC_SysIntListenerCfg   listenerCfg;
+</div><div class='ace_line'>    Semaphore_Params    semParams;
+</div><div class='ace_line'>    Mailbox_Config      mboxCfg;
+</div><div class='ace_line'>   /* Debug Message: */
+</div><div class='ace_line'>    System_printf(&#34;Debug: Launched the Initialization Task\n&#34;);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /*****************************************************************************
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> * Initialize the mmWave SDK components:
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> *****************************************************************************/
+</div><div class='ace_line'>    /* Pinmux setting */
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Setup the PINMUX to bring out the UART-1 */
+</div><div class='ace_line'>    Pinmux_Set_OverrideCtrl(SOC_XWR18XX_PINN5_PADBE, PINMUX_OUTEN_RETAIN_HW_CTRL, PINMUX_INPEN_RETAIN_HW_CTRL);    
+</div><div class='ace_line'>    Pinmux_Set_FuncSel(SOC_XWR18XX_PINN5_PADBE, SOC_XWR18XX_PINN5_PADBE_MSS_UARTA_TX);
+</div><div class='ace_line'>    Pinmux_Set_OverrideCtrl(SOC_XWR18XX_PINN4_PADBD, PINMUX_OUTEN_RETAIN_HW_CTRL, PINMUX_INPEN_RETAIN_HW_CTRL);    
+</div><div class='ace_line'>    Pinmux_Set_FuncSel(SOC_XWR18XX_PINN4_PADBD, SOC_XWR18XX_PINN4_PADBD_MSS_UARTA_RX);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Setup the PINMUX to bring out the UART-3 */
+</div><div class='ace_line'>    Pinmux_Set_OverrideCtrl(SOC_XWR18XX_PINF14_PADAJ, PINMUX_OUTEN_RETAIN_HW_CTRL, PINMUX_INPEN_RETAIN_HW_CTRL);
+</div><div class='ace_line'>    Pinmux_Set_FuncSel(SOC_XWR18XX_PINF14_PADAJ, SOC_XWR18XX_PINF14_PADAJ_MSS_UARTB_TX);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Setup the PINMUX to bring out the DSS UART */
+</div><div class='ace_line'>    Pinmux_Set_OverrideCtrl(SOC_XWR18XX_PINP8_PADBM, PINMUX_OUTEN_RETAIN_HW_CTRL, PINMUX_INPEN_RETAIN_HW_CTRL);
+</div><div class='ace_line'>    Pinmux_Set_FuncSel(SOC_XWR18XX_PINP8_PADBM, SOC_XWR18XX_PINP8_PADBM_DSS_UART_TX);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Initialize the UART */
+</div><div class='ace_line'>    UART_init();
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Initialize the GPIO */
+</div><div class='ace_line'>    GPIO_init();
+</div><div class='ace_line'>    
+</div><div class='ace_line'>    /* Initialize the Mailbox */
+</div><div class='ace_line'>    Mailbox_init(MAILBOX_TYPE_MSS);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Open UART Driver: */
+</div><div class='ace_line'>    UART_Params_init(&#38;uartParams);
+</div><div class='ace_line'>    uartParams.clockFrequency = MSS_SYS_VCLK;
+</div><div class='ace_line'>    uartParams.baudRate       = 115200;
+</div><div class='ace_line'>    uartParams.isPinMuxDone   = 1;
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Open the Command UART Instance */
+</div><div class='ace_line'>    gMrrMSSMCB.commandUartHandle = UART_open(0, &#38;uartParams);
+</div><div class='ace_line'>    if (gMrrMSSMCB.commandUartHandle == NULL)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span> System_printf(&#34;Error: Unable to open the Command UART Instance\n&#34;);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> /* Setup the default UART Parameters */
+</div><div class='ace_line'>    UART_Params_init(&#38;uartParams);
+</div><div class='ace_line'>    uartParams.writeDataMode = UART_DATA_BINARY;
+</div><div class='ace_line'>    uartParams.readDataMode = UART_DATA_BINARY;
+</div><div class='ace_line'>    uartParams.clockFrequency = MSS_SYS_VCLK;
+</div><div class='ace_line'>    uartParams.baudRate       = 115200*8;
+</div><div class='ace_line'>    uartParams.isPinMuxDone   = 1U;
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Open the Logging UART Instance: */
+</div><div class='ace_line'>    gMrrMSSMCB.loggingUartHandle = UART_open(1, &#38;uartParams);
+</div><div class='ace_line'>    if (gMrrMSSMCB.loggingUartHandle == NULL)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    System_printf(&#34;Error: MMWDemoMSS Unable to open the Logging UART Instance\n&#34;);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /*****************************************************************************
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> * Creating communication channel between MSS &#38; DSS
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> *****************************************************************************/
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Create a binary semaphore which is used to handle mailbox interrupt. */
+</div><div class='ace_line'>    Semaphore_Params_init(&#38;semParams);
+</div><div class='ace_line'>    semParams.mode             = Semaphore_Mode_BINARY;
+</div><div class='ace_line'>    gMrrMSSMCB.mboxSemHandle = Semaphore_create(0, &#38;semParams, NULL);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Setup the default mailbox configuration */
+</div><div class='ace_line'>    Mailbox_Config_init(&#38;mboxCfg);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Setup the configuration: */
+</div><div class='ace_line'>    mboxCfg.chType       = MAILBOX_CHTYPE_MULTI;
+</div><div class='ace_line'>    mboxCfg.chId         = MAILBOX_CH_ID_0;
+</div><div class='ace_line'>    mboxCfg.writeMode    = MAILBOX_MODE_BLOCKING;
+</div><div class='ace_line'>    mboxCfg.readMode     = MAILBOX_MODE_CALLBACK;
+</div><div class='ace_line'>    mboxCfg.readCallback = &#38;MmwDemo_mboxCallback;
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Initialization of Mailbox Virtual Channel  */
+</div><div class='ace_line'>    gMrrMSSMCB.peerMailbox = Mailbox_open(MAILBOX_TYPE_DSS, &#38;mboxCfg, &#38;errCode);
+</div><div class='ace_line'>    if (gMrrMSSMCB.peerMailbox == NULL)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    /* Error: Unable to open the mailbox */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    System_printf(&#34;Error: Unable to open the Mailbox to the DSS [Error code %d]\n&#34;, errCode);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Create task to handle mailbox messges */
+</div><div class='ace_line'>    Task_Params_init(&#38;taskParams);
+</div><div class='ace_line'>    taskParams.stackSize = 16*1024;
+</div><div class='ace_line'>    Task_create(MmwDemo_mboxReadTask, &#38;taskParams, NULL);
+</div><div class='ace_line'>    
+</div><div class='ace_line'>    /* Register Chirp Available Listener */
+</div><div class='ace_line'>    memset ((void*)&#38;listenerCfg, 0, sizeof(SOC_SysIntListenerCfg));
+</div><div class='ace_line'>    listenerCfg.systemInterrupt   = SOC_XWR18XX_MSS_CHIRP_AVAIL_IRQ;
+</div><div class='ace_line'>    listenerCfg.listenerFxn       = MRR_MSS_chirpIntCallback;
+</div><div class='ace_line'>    listenerCfg.arg               = 0;
+</div><div class='ace_line'>    gMrrMSSMCB.chirpIntHandle = SOC_registerSysIntListener (gMrrMSSMCB.socHandle, &#38;listenerCfg, &#38;errCode);
+</div><div class='ace_line'>    if (gMrrMSSMCB.chirpIntHandle == NULL)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    System_printf (&#34;Error: Unable to register the Chirp Available Listener [Error code %d]\n&#34;, errCode);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Register Frame Start Listener */
+</div><div class='ace_line'>    memset ((void*)&#38;listenerCfg, 0, sizeof(SOC_SysIntListenerCfg));
+</div><div class='ace_line'>    listenerCfg.systemInterrupt   = SOC_XWR18XX_MSS_FRAME_START_INT;
+</div><div class='ace_line'>    listenerCfg.listenerFxn       = MRR_MSS_frameStartIntCallback;
+</div><div class='ace_line'>    listenerCfg.arg               = 0;
+</div><div class='ace_line'>    gMrrMSSMCB.frameStartIntHandle = SOC_registerSysIntListener (gMrrMSSMCB.socHandle, &#38;listenerCfg, &#38;errCode);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    if (gMrrMSSMCB.frameStartIntHandle == NULL)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    System_printf(&#34;Error: Unable to register the Frame start Listener [Error code %d]\n&#34;, errCode);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return ;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /*****************************************************************************
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> * Initialize the mmWave module:
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> *****************************************************************************/
+</div><div class='ace_line'>    memset ((void *)&#38;initCfg, 0, sizeof(MMWave_InitCfg));
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Populate the initialization configuration: 
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> * The MMWAve is configured in minimal isolation mode. */
+</div><div class='ace_line'>    initCfg.domain                      = MMWave_Domain_MSS;
+</div><div class='ace_line'>    initCfg.socHandle                   = gMrrMSSMCB.socHandle;
+</div><div class='ace_line'>    initCfg.eventFxn                    = &#38;MRR_MSS_eventFxn;
+</div><div class='ace_line'>    initCfg.cfgMode                     = MMWave_ConfigurationMode_MINIMAL; 
+</div><div class='ace_line'>    initCfg.executionMode               = MMWave_ExecutionMode_ISOLATION;
+</div><div class='ace_line'>    initCfg.linkCRCCfg.useCRCDriver     = 1U;
+</div><div class='ace_line'>    initCfg.linkCRCCfg.crcChannel       = CRC_Channel_CH1;
+</div><div class='ace_line'>    initCfg.cooperativeModeCfg.cfgFxn   = &#38;MRR_MSS_cfgFxn;
+</div><div class='ace_line'>    initCfg.cooperativeModeCfg.startFxn = &#38;MRR_MSS_startFxn;
+</div><div class='ace_line'>    initCfg.cooperativeModeCfg.stopFxn  = &#38;MRR_MSS_stopFxn;
+</div><div class='ace_line'>    initCfg.cooperativeModeCfg.openFxn  = &#38;MRR_MSS_openFxn;
+</div><div class='ace_line'>    initCfg.cooperativeModeCfg.closeFxn = &#38;MRR_MSS_closeFxn;
+</div><div class='ace_line'>    
+</div><div class='ace_line'>    /* Initialize and setup the mmWave Control module */
+</div><div class='ace_line'>    gMrrMSSMCB.ctrlHandle = MMWave_init (&#38;initCfg, &#38;errCode);
+</div><div class='ace_line'>    if (gMrrMSSMCB.ctrlHandle == NULL)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    /* Error: Unable to initialize the mmWave control module */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    System_printf (&#34;Error: mmWave Control Initialization failed [Error code %d]\n&#34;, errCode);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>    System_printf (&#34;Debug: Initialized the mmWave module\n&#34;);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /*****************************************************************************
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> * Synchronize the mmWave module:
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> *****************************************************************************/
+</div><div class='ace_line'>    while (1)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    int32_t syncStatus;
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    /* Get the synchronization status: */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    syncStatus = MMWave_sync (gMrrMSSMCB.ctrlHandle, &#38;errCode);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    if (syncStatus &#60; 0)
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    /* Error: Unable to synchronize the mmWave control module */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    System_printf (&#34;Error: mmWave Control Synchronization failed [Error code %d]\n&#34;, errCode);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    return;
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    }
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    if (syncStatus == 1)
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    /* Synchronization acheived: */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    break;
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    }
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    /* Sleep and poll again: */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    Task_sleep(1);
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>    
+</div><div class='ace_line'>    System_printf (&#34;Debug: Synchronized the mmWave module\n&#34;);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    #ifdef SUBFRAME_CONF_MRR_USRR
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    gMrrMSSMCB.numChirpsPerSubframe[0] = SUBFRAME_MRR_NUM_CHIRPS_TOTAL;
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    gMrrMSSMCB.numChirpsPerSubframe[1] = SUBFRAME_USRR_NUM_CHIRPS_TOTAL;
+</div><div class='ace_line'>    #else 
+</div><div class='ace_line'>    #ifdef SUBFRAME_CONF_MRR
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    gMrrMSSMCB.numChirpsPerSubframe[0] = SUBFRAME_MRR_NUM_CHIRPS_TOTAL;
+</div><div class='ace_line'>    #endif 
+</div><div class='ace_line'>    #ifdef SUBFRAME_CONF_USRR
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    gMrrMSSMCB.numChirpsPerSubframe[0] = SUBFRAME_USRR_NUM_CHIRPS_TOTAL;
+</div><div class='ace_line'>    #endif
+</div><div class='ace_line'>    #endif
+</div><div class='ace_line'>    
+</div><div class='ace_line'>#ifdef USE_LVDS_INTERFACE_FOR_OBJECT_DATA_TX
+</div><div class='ace_line'>    /* Configure the LVDS streaming interface.*/
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    int32_t streamConfiguration = MRR_MSS_configureStreaming() ;
+</div><div class='ace_line'>    
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    if (streamConfiguration != 0)
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    System_printf (&#34;Error: Unable to activate the Streaming Session [Error code %d]\n&#34;, streamConfiguration);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    DebugP_assert (0);   
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    }
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>#endif
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /*****************************************************************************
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> * Launch the mmWave control execution task
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> * - This should have a higher priroity than any other task which uses the
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> *   mmWave control API
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> *****************************************************************************/
+</div><div class='ace_line'>    Task_Params_init(&#38;taskParams);
+</div><div class='ace_line'>    taskParams.priority  = 6;
+</div><div class='ace_line'>    taskParams.stackSize = 3*1024;
+</div><div class='ace_line'>    Task_create(MRR_MSS_mmWaveCtrlTask, &#38;taskParams, NULL);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /*****************************************************************************
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> * Setup the CLI
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> *****************************************************************************/
+</div><div class='ace_line'>    MRR_MSS_CLIInit ();
+</div><div class='ace_line'>}
+</div><div class='ace_line'>
+</div><div class='ace_line'>```
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>首</span><span class='ace_cjk' style='width:NaNpx'>先</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>定</span><span class='ace_cjk' style='width:NaNpx'>义</span><span class='ace_cjk' style='width:NaNpx'>为</span>static<span class='ace_cjk' style='width:NaNpx'>类</span><span class='ace_cjk' style='width:NaNpx'>型</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>指</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>该</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>作</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_cjk' style='width:NaNpx'>域</span><span class='ace_cjk' style='width:NaNpx'>仅</span><span class='ace_cjk' style='width:NaNpx'>局</span><span class='ace_cjk' style='width:NaNpx'>限</span><span class='ace_cjk' style='width:NaNpx'>于</span><span class='ace_cjk' style='width:NaNpx'>本</span><span class='ace_cjk' style='width:NaNpx'>文</span><span class='ace_cjk' style='width:NaNpx'>件</span><span class='ace_cjk' style='width:NaNpx'>。</span><span class='ace_cjk' style='width:NaNpx'>知</span><span class='ace_cjk' style='width:NaNpx'>道</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>知</span><span class='ace_cjk' style='width:NaNpx'>识</span><span class='ace_cjk' style='width:NaNpx'>点</span><span class='ace_cjk' style='width:NaNpx'>以</span><span class='ace_cjk' style='width:NaNpx'>后</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>可</span><span class='ace_cjk' style='width:NaNpx'>以</span><span class='ace_cjk' style='width:NaNpx'>看</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>内</span><span class='ace_cjk' style='width:NaNpx'>部</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>任</span><span class='ace_cjk' style='width:NaNpx'>务</span><span class='ace_cjk' style='width:NaNpx'>了</span><span class='ace_cjk' style='width:NaNpx'>首</span><span class='ace_cjk' style='width:NaNpx'>先</span><span class='ace_cjk' style='width:NaNpx'>定</span><span class='ace_cjk' style='width:NaNpx'>义</span><span class='ace_cjk' style='width:NaNpx'>了</span><span class='ace_cjk' style='width:NaNpx'>几</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>变</span><span class='ace_cjk' style='width:NaNpx'>量</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>些</span><span class='ace_cjk' style='width:NaNpx'>变</span><span class='ace_cjk' style='width:NaNpx'>量</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>作</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_cjk' style='width:NaNpx'>基</span><span class='ace_cjk' style='width:NaNpx'>本</span><span class='ace_cjk' style='width:NaNpx'>上</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>参</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>值</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>定</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>没</span><span class='ace_cjk' style='width:NaNpx'>有</span><span class='ace_cjk' style='width:NaNpx'>太</span><span class='ace_cjk' style='width:NaNpx'>多</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>关</span><span class='ace_cjk' style='width:NaNpx'>系</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>来</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>驱</span><span class='ace_cjk' style='width:NaNpx'>动</span><span class='ace_cjk' style='width:NaNpx'>初</span><span class='ace_cjk' style='width:NaNpx'>始</span><span class='ace_cjk' style='width:NaNpx'>化</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>首</span><span class='ace_cjk' style='width:NaNpx'>先</span><span class='ace_cjk' style='width:NaNpx'>是</span>UART<span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>再</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>里</span><span class='ace_cjk' style='width:NaNpx'>使</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_cjk' style='width:NaNpx'>了</span><span class='ace_cjk' style='width:NaNpx'>两</span><span class='ace_cjk' style='width:NaNpx'>个</span>uart  1<span class='ace_cjk' style='width:NaNpx'>和</span>3<span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>两</span><span class='ace_cjk' style='width:NaNpx'>个</span>UART<span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>波</span><span class='ace_cjk' style='width:NaNpx'>特</span><span class='ace_cjk' style='width:NaNpx'>率</span><span class='ace_cjk' style='width:NaNpx'>分</span><span class='ace_cjk' style='width:NaNpx'>别</span><span class='ace_cjk' style='width:NaNpx'>为</span>115200<span class='ace_cjk' style='width:NaNpx'>和</span>921600<span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>来</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span>GPIO<span class='ace_cjk' style='width:NaNpx'>初</span><span class='ace_cjk' style='width:NaNpx'>始</span><span class='ace_cjk' style='width:NaNpx'>化</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>来</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>邮</span><span class='ace_cjk' style='width:NaNpx'>箱</span><span class='ace_cjk' style='width:NaNpx'>初</span><span class='ace_cjk' style='width:NaNpx'>始</span><span class='ace_cjk' style='width:NaNpx'>化</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>初</span><span class='ace_cjk' style='width:NaNpx'>始</span><span class='ace_cjk' style='width:NaNpx'>化</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>是</span>int32_t Mailbox_init ( Mailbox_Type localEndpoint ) <span class='ace_cjk' style='width:NaNpx'>因</span><span class='ace_cjk' style='width:NaNpx'>为</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>里</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>程</span><span class='ace_cjk' style='width:NaNpx'>序</span><span class='ace_cjk' style='width:NaNpx'>时</span><span class='ace_cjk' style='width:NaNpx'>在</span>MSS<span class='ace_cjk' style='width:NaNpx'>中</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>实</span><span class='ace_cjk' style='width:NaNpx'>参</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span>MAILBOX_TYPE_MSS<span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>&#60;br/>
+</div><div class='ace_line'>
+</div><div class='ace_line'>&#60;br/>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>来</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>邮</span><span class='ace_cjk' style='width:NaNpx'>箱</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>打</span><span class='ace_cjk' style='width:NaNpx'>开</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>邮</span><span class='ace_cjk' style='width:NaNpx'>箱</span><span class='ace_cjk' style='width:NaNpx'>打</span><span class='ace_cjk' style='width:NaNpx'>开</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>为</span>Mbox_Handle Mailbox_open ( Mailbox_Type remoteEndpoint,const Mailbox_Config * cfg,int32_t * errCode ) <span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>因</span><span class='ace_cjk' style='width:NaNpx'>此</span><span class='ace_cjk' style='width:NaNpx'>第</span><span class='ace_cjk' style='width:NaNpx'>一</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>实</span><span class='ace_cjk' style='width:NaNpx'>参</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span>MAILBOX_TYPE_DSS<span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>后</span><span class='ace_cjk' style='width:NaNpx'>面</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>两</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>参</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>分</span><span class='ace_cjk' style='width:NaNpx'>别</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>邮</span><span class='ace_cjk' style='width:NaNpx'>箱</span><span class='ace_cjk' style='width:NaNpx'>配</span><span class='ace_cjk' style='width:NaNpx'>置</span><span class='ace_cjk' style='width:NaNpx'>和</span><span class='ace_cjk' style='width:NaNpx'>错</span><span class='ace_cjk' style='width:NaNpx'>误</span><span class='ace_cjk' style='width:NaNpx'>代</span><span class='ace_cjk' style='width:NaNpx'>码</span><span class='ace_cjk' style='width:NaNpx'>。</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>还</span><span class='ace_cjk' style='width:NaNpx'>有</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>信</span><span class='ace_cjk' style='width:NaNpx'>号</span><span class='ace_cjk' style='width:NaNpx'>量</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>创</span><span class='ace_cjk' style='width:NaNpx'>建</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>来</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>回</span><span class='ace_cjk' style='width:NaNpx'>调</span>MmwDemo_mboxReadTask<span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>任</span><span class='ace_cjk' style='width:NaNpx'>务</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>空</span><span class='ace_cjk' style='width:NaNpx'>间</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>大</span><span class='ace_cjk' style='width:NaNpx'>小</span><span class='ace_cjk' style='width:NaNpx'>为</span>16KB<span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>任</span><span class='ace_cjk' style='width:NaNpx'>务</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>从</span>DSS<span class='ace_cjk' style='width:NaNpx'>中</span><span class='ace_cjk' style='width:NaNpx'>读</span><span class='ace_cjk' style='width:NaNpx'>取</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>据</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>将</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>据</span><span class='ace_cjk' style='width:NaNpx'>发</span><span class='ace_cjk' style='width:NaNpx'>送</span><span class='ace_cjk' style='width:NaNpx'>到</span>PC<span class='ace_cjk' style='width:NaNpx'>机</span><span class='ace_cjk' style='width:NaNpx'>上</span><span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>然</span><span class='ace_cjk' style='width:NaNpx'>后</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span>chirp<span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span>MRR_MSS_chirpIntCallback<span class='ace_cjk' style='width:NaNpx'>和</span>frame<span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span>MRR_MSS_frameStartIntCallback<span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>注</span><span class='ace_cjk' style='width:NaNpx'>册</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>两</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>在</span>ADCBuf<span class='ace_cjk' style='width:NaNpx'>中</span><span class='ace_cjk' style='width:NaNpx'>注</span><span class='ace_cjk' style='width:NaNpx'>册</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>当</span>chirp<span class='ace_cjk' style='width:NaNpx'>和</span>frame<span class='ace_cjk' style='width:NaNpx'>可</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>时</span><span class='ace_cjk' style='width:NaNpx'>候</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>才</span><span class='ace_cjk' style='width:NaNpx'>会</span><span class='ace_cjk' style='width:NaNpx'>被</span><span class='ace_cjk' style='width:NaNpx'>调</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_cjk' style='width:NaNpx'>。</span><span class='ace_cjk' style='width:NaNpx'>在</span><span class='ace_cjk' style='width:NaNpx'>所</span><span class='ace_cjk' style='width:NaNpx'>有</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>驱</span><span class='ace_cjk' style='width:NaNpx'>动</span><span class='ace_cjk' style='width:NaNpx'>初</span><span class='ace_cjk' style='width:NaNpx'>始</span><span class='ace_cjk' style='width:NaNpx'>化</span><span class='ace_cjk' style='width:NaNpx'>完</span><span class='ace_cjk' style='width:NaNpx'>毕</span><span class='ace_cjk' style='width:NaNpx'>以</span><span class='ace_cjk' style='width:NaNpx'>后</span><span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>可</span><span class='ace_cjk' style='width:NaNpx'>以</span><span class='ace_cjk' style='width:NaNpx'>要</span><span class='ace_cjk' style='width:NaNpx'>启</span><span class='ace_cjk' style='width:NaNpx'>动</span>mmwave<span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>备</span><span class='ace_cjk' style='width:NaNpx'>了</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>所</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_cjk' style='width:NaNpx'>到</span><span class='ace_cjk' style='width:NaNpx'>的</span>API<span class='ace_cjk' style='width:NaNpx'>如</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>图</span><span class='ace_cjk' style='width:NaNpx'>所</span><span class='ace_cjk' style='width:NaNpx'>示</span><span class='ace_cjk' style='width:NaNpx'>：</span>
+</div><div class='ace_line'>![<span class='ace_cjk' style='width:NaNpx'>截</span><span class='ace_cjk' style='width:NaNpx'>图</span>](attachment:0add3237765e71503587838030e19aad)
+</div><div class='ace_line'>
+</div><div class='ace_line'>&#60;br/>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>在</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>中</span><span class='ace_cjk' style='width:NaNpx'>只</span><span class='ace_cjk' style='width:NaNpx'>能</span><span class='ace_cjk' style='width:NaNpx'>看</span><span class='ace_cjk' style='width:NaNpx'>到</span>MMWave_init<span class='ace_cjk' style='width:NaNpx'>和</span>MMWave_sync<span class='ace_cjk' style='width:NaNpx'>，</span>MMWave_execute<span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>会</span><span class='ace_cjk' style='width:NaNpx'>在</span>MRR_MSS_mmWaveCtrlTask<span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>中</span><span class='ace_cjk' style='width:NaNpx'>的</span>while 1<span class='ace_cjk' style='width:NaNpx'>中</span><span class='ace_cjk' style='width:NaNpx'>一</span><span class='ace_cjk' style='width:NaNpx'>直</span><span class='ace_cjk' style='width:NaNpx'>调</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_cjk' style='width:NaNpx'>，</span>MMWave_execute<span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>作</span><span class='ace_cjk' style='width:NaNpx'>用</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>执</span><span class='ace_cjk' style='width:NaNpx'>行</span>mmWave<span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>控</span><span class='ace_cjk' style='width:NaNpx'>制</span><span class='ace_cjk' style='width:NaNpx'>模</span><span class='ace_cjk' style='width:NaNpx'>块</span><span class='ace_cjk' style='width:NaNpx'>。</span><span class='ace_cjk' style='width:NaNpx'>最</span><span class='ace_cjk' style='width:NaNpx'>后</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span>MRR_MSS_CLIInit()<span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>了</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>中</span><span class='ace_cjk' style='width:NaNpx'>定</span><span class='ace_cjk' style='width:NaNpx'>义</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>上</span><span class='ace_cjk' style='width:NaNpx'>位</span><span class='ace_cjk' style='width:NaNpx'>机</span><span class='ace_cjk' style='width:NaNpx'>通</span><span class='ace_cjk' style='width:NaNpx'>过</span><span class='ace_cjk' style='width:NaNpx'>发</span><span class='ace_cjk' style='width:NaNpx'>送</span><span class='ace_cjk' style='width:NaNpx'>命</span><span class='ace_cjk' style='width:NaNpx'>令</span><span class='ace_cjk' style='width:NaNpx'>信</span><span class='ace_cjk' style='width:NaNpx'>息</span><span class='ace_cjk' style='width:NaNpx'>后</span><span class='ace_cjk' style='width:NaNpx'>要</span><span class='ace_cjk' style='width:NaNpx'>执</span><span class='ace_cjk' style='width:NaNpx'>行</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>任</span><span class='ace_cjk' style='width:NaNpx'>务</span><span class='ace_cjk' style='width:NaNpx'>。</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>OK<span class='ace_cjk' style='width:NaNpx'>，</span>MRR_MSS_initTask<span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>在</span><span class='ace_cjk' style='width:NaNpx'>此</span><span class='ace_cjk' style='width:NaNpx'>介</span><span class='ace_cjk' style='width:NaNpx'>绍</span><span class='ace_cjk' style='width:NaNpx'>完</span><span class='ace_cjk' style='width:NaNpx'>了</span><span class='ace_cjk' style='width:NaNpx'>。</span>
+</div><div class='ace_line'>————————————————
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>版</span><span class='ace_cjk' style='width:NaNpx'>权</span><span class='ace_cjk' style='width:NaNpx'>声</span><span class='ace_cjk' style='width:NaNpx'>明</span><span class='ace_cjk' style='width:NaNpx'>：</span><span class='ace_cjk' style='width:NaNpx'>本</span><span class='ace_cjk' style='width:NaNpx'>文</span><span class='ace_cjk' style='width:NaNpx'>为</span>CSDN<span class='ace_cjk' style='width:NaNpx'>博</span><span class='ace_cjk' style='width:NaNpx'>主</span><span class='ace_cjk' style='width:NaNpx'>「</span>XXXXiaojie<span class='ace_cjk' style='width:NaNpx'>」</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>原</span><span class='ace_cjk' style='width:NaNpx'>创</span><span class='ace_cjk' style='width:NaNpx'>文</span><span class='ace_cjk' style='width:NaNpx'>章</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>遵</span><span class='ace_cjk' style='width:NaNpx'>循</span>CC 4.0 BY-SA<span class='ace_cjk' style='width:NaNpx'>版</span><span class='ace_cjk' style='width:NaNpx'>权</span><span class='ace_cjk' style='width:NaNpx'>协</span><span class='ace_cjk' style='width:NaNpx'>议</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>转</span><span class='ace_cjk' style='width:NaNpx'>载</span><span class='ace_cjk' style='width:NaNpx'>请</span><span class='ace_cjk' style='width:NaNpx'>附</span><span class='ace_cjk' style='width:NaNpx'>上</span><span class='ace_cjk' style='width:NaNpx'>原</span><span class='ace_cjk' style='width:NaNpx'>文</span><span class='ace_cjk' style='width:NaNpx'>出</span><span class='ace_cjk' style='width:NaNpx'>处</span><span class='ace_cjk' style='width:NaNpx'>链</span><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>及</span><span class='ace_cjk' style='width:NaNpx'>本</span><span class='ace_cjk' style='width:NaNpx'>声</span><span class='ace_cjk' style='width:NaNpx'>明</span><span class='ace_cjk' style='width:NaNpx'>。</span>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>原</span><span class='ace_cjk' style='width:NaNpx'>文</span><span class='ace_cjk' style='width:NaNpx'>链</span><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>：</span>https://blog.csdn.net/Xiao_Jie123/article/details/109669932
+</div><div class='ace_line'>
+</div><div class='ace_line'># mss_mrr_cli.c
+</div><div class='ace_line'>
+</div><div class='ace_line'>```c_cpp
+</div><div class='ace_line'>void wvd_MSS_CLIInit (void)
+</div><div class='ace_line'>{
+</div><div class='ace_line'>    static char* dummy[1];
+</div><div class='ace_line'>
+</div><div class='ace_line'>    CLI_write (&#34;Help: This will display the usage of the CLI commands\n&#34;);
+</div><div class='ace_line'>    /* The link is not configured. */
+</div><div class='ace_line'>    st_gMrrMSSMCB.cfgStatus = (uint8_t)false;
+</div><div class='ace_line'>    st_gMrrMSSMCB.runningStatus = (uint8_t)false;
+</div><div class='ace_line'>    st_gMrrMSSMCB.isMMWaveOpen = (uint8_t)false;
+</div><div class='ace_line'>    
+</div><div class='ace_line'>    nsw_MSS_CLIAdvancedFrameCfg(1, dummy);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    rlDevHsiClk_t       hsiClkgs;
+</div><div class='ace_line'>    int32_t              retVal;
+</div><div class='ace_line'>    memset ((void*)&#38;hsiClkgs, 0, sizeof(rlDevHsiClk_t));
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Setup the HSI Clock as per the Radar Interface Document: This is set to 600Mhtz DDR Mode */
+</div><div class='ace_line'>    hsiClkgs.hsiClk = 0x9u;
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Setup the HSI in the radar link: */
+</div><div class='ace_line'>    retVal = rlDeviceSetHsiClk(RL_DEVICE_MAP_CASCADED_1, &#38;hsiClkgs);
+</div><div class='ace_line'>    if (retVal != RL_RET_CODE_OK)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    /* Error: Unable to set the HSI clock */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    System_printf (&#34;Error: Setting up the HSI Clock in BSS Failed [Error %d]\n&#34;, retVal);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>#if SINGLE_TRIGGER
+</div><div class='ace_line'>    
+</div><div class='ace_line'>#else
+</div><div class='ace_line'>    nsw_MSS_CLISensorStart(2, dummy);
+</div><div class='ace_line'>#endif
+</div><div class='ace_line'>    return;
+</div><div class='ace_line'>}
+</div><div class='ace_line'>
+</div><div class='ace_line'>```
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>相</span><span class='ace_cjk' style='width:NaNpx'>比</span><span class='ace_cjk' style='width:NaNpx'>于</span><span class='ace_cjk' style='width:NaNpx'>上</span><span class='ace_cjk' style='width:NaNpx'>面</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>那</span><span class='ace_cjk' style='width:NaNpx'>一</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>简</span><span class='ace_cjk' style='width:NaNpx'>单</span><span class='ace_cjk' style='width:NaNpx'>多</span><span class='ace_cjk' style='width:NaNpx'>了</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>意</span><span class='ace_cjk' style='width:NaNpx'>思</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>实</span><span class='ace_cjk' style='width:NaNpx'>现</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>功</span><span class='ace_cjk' style='width:NaNpx'>能</span><span class='ace_cjk' style='width:NaNpx'>性</span><span class='ace_cjk' style='width:NaNpx'>更</span><span class='ace_cjk' style='width:NaNpx'>简</span><span class='ace_cjk' style='width:NaNpx'>单</span><span class='ace_cjk' style='width:NaNpx'>了</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>定</span><span class='ace_cjk' style='width:NaNpx'>义</span><span class='ace_cjk' style='width:NaNpx'>了</span><span class='ace_cjk' style='width:NaNpx'>四</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>要</span><span class='ace_cjk' style='width:NaNpx'>从</span><span class='ace_cjk' style='width:NaNpx'>上</span><span class='ace_cjk' style='width:NaNpx'>位</span><span class='ace_cjk' style='width:NaNpx'>机</span><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>收</span><span class='ace_cjk' style='width:NaNpx'>到</span><span class='ace_cjk' style='width:NaNpx'>到</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>命</span><span class='ace_cjk' style='width:NaNpx'>令</span><span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>> <span class='ace_cjk' style='width:NaNpx'>分</span><span class='ace_cjk' style='width:NaNpx'>别</span><span class='ace_cjk' style='width:NaNpx'>时</span><span class='ace_cjk' style='width:NaNpx'>：</span>
+</div><div class='ace_line'>> 
+</div><div class='ace_line'>> basicCfg<span class='ace_cjk' style='width:NaNpx'>、</span>
+</div><div class='ace_line'>> 
+</div><div class='ace_line'>> advFrameCfg<span class='ace_cjk' style='width:NaNpx'>、</span>
+</div><div class='ace_line'>> 
+</div><div class='ace_line'>> sensorStart<span class='ace_cjk' style='width:NaNpx'>、</span>
+</div><div class='ace_line'>> 
+</div><div class='ace_line'>> sensorStop
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>他</span><span class='ace_cjk' style='width:NaNpx'>们</span><span class='ace_cjk' style='width:NaNpx'>四</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>对</span><span class='ace_cjk' style='width:NaNpx'>应</span><span class='ace_cjk' style='width:NaNpx'>要</span><span class='ace_cjk' style='width:NaNpx'>执</span><span class='ace_cjk' style='width:NaNpx'>行</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>分</span><span class='ace_cjk' style='width:NaNpx'>别</span><span class='ace_cjk' style='width:NaNpx'>为</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>> MRR_MSS_CLIBasicCfg<span class='ace_cjk' style='width:NaNpx'>、</span>
+</div><div class='ace_line'>> 
+</div><div class='ace_line'>> MRR_MSS_CLIAdvancedFrameCfg<span class='ace_cjk' style='width:NaNpx'>、</span>
+</div><div class='ace_line'>> 
+</div><div class='ace_line'>> MRR_MSS_CLISensorStart<span class='ace_cjk' style='width:NaNpx'>、</span>
+</div><div class='ace_line'>> 
+</div><div class='ace_line'>> MRR_MSS_CLISensorStop
+</div><div class='ace_line'>
+</div><div class='ace_line'>&#60;br/>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>面</span><span class='ace_cjk' style='width:NaNpx'>介</span><span class='ace_cjk' style='width:NaNpx'>绍</span><span class='ace_cjk' style='width:NaNpx'>着</span><span class='ace_cjk' style='width:NaNpx'>重</span><span class='ace_cjk' style='width:NaNpx'>介</span><span class='ace_cjk' style='width:NaNpx'>绍</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>两</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>：</span>MRR_MSS_CLIAdvancedFrameCfg<span class='ace_cjk' style='width:NaNpx'>、</span>MRR_MSS_CLISensorStart
+</div><div class='ace_line'>————————————————
+</div><div class='ace_line'>
+</div><div class='ace_line'>
+</div><div class='ace_line'>```c_cpp
+</div><div class='ace_line'>static int32_t MRR_MSS_CLIAdvancedFrameCfg (int32_t argc, char* argv[])
+</div><div class='ace_line'>{
+</div><div class='ace_line'>    MMWave_OpenCfg          openCfg;
+</div><div class='ace_line'>    int32_t                 errCode;
+</div><div class='ace_line'>    rlProfileCfg_t          profileCfg;
+</div><div class='ace_line'>    rlChirpCfg_t            chirpCfg;
+</div><div class='ace_line'>    rlAdvFrameCfg_t         advFrameCfg;
+</div><div class='ace_line'>    int32_t                 retVal;
+</div><div class='ace_line'>    int32_t                 indx;
+</div><div class='ace_line'>    rlRfLdoBypassCfg_t rfLdoBypassCfg[1] = {0};
+</div><div class='ace_line'>
+</div><div class='ace_line'>    if (gMrrMSSMCB.cfgStatus == true)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    /* Radar has already been configured. */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return 0;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Setup the calibration frequency: */
+</div><div class='ace_line'>    openCfg.freqLimitLow  = 760U;
+</div><div class='ace_line'>    openCfg.freqLimitHigh = 810U;
+</div><div class='ace_line'>    openCfg.defaultAsyncEventHandler = MMWave_DefaultAsyncEventHandler_MSS;
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Initialize the minimal configuration: */
+</div><div class='ace_line'>    Cfg_ChannelCfgInitParams  (&#38;openCfg.chCfg);
+</div><div class='ace_line'>    Cfg_LowPowerModeInitParams(&#38;openCfg.lowPowerMode);
+</div><div class='ace_line'>    Cfg_ADCOutCfgInitParams   (&#38;openCfg.adcOutCfg);
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Open the mmWave module: */
+</div><div class='ace_line'>    if (MMWave_open (gMrrMSSMCB.ctrlHandle, &#38;openCfg, NULL, &#38;errCode) &#60; 0)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    System_printf (&#34;Error: MMWDemoMSS mmWave open configuration failed [Error code %d]\n&#34;, errCode);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return -1;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'>    System_printf (&#34;Set LDO Bypass\n&#34;);
+</div><div class='ace_line'>    rfLdoBypassCfg->ldoBypassEnable = 0x03;
+</div><div class='ace_line'>    retVal = rlRfSetLdoBypassConfig(RL_DEVICE_MAP_INTERNAL_BSS, (rlRfLdoBypassCfg_t*)rfLdoBypassCfg);
+</div><div class='ace_line'>    if (retVal != RL_RET_CODE_OK)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    System_printf (&#34;Error: LDO Bypass config failed [Error %d]\n&#34;, retVal);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return -1;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /********************************************************************************
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> * MMWave Link and BSS is operational now. In minimal mode we have access to all
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> * the mmWave Link API to perform the configuration
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> *
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> * Profile configurations:
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> ********************************************************************************/
+</div><div class='ace_line'>    for (indx = 0; indx &#60; NUM_PROFILES; indx++)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    Cfg_ProfileCfgInitParams (indx, &#38;profileCfg);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    retVal = rlSetProfileConfig (RL_DEVICE_MAP_INTERNAL_BSS, 1U, &#38;profileCfg);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    if (retVal != RL_RET_CODE_OK)
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    System_printf (&#34;Error: Unable to configure the profile %d [Error %d]\n&#34;, indx, retVal);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    return -1;
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /********************************************************************************
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> * Chirp configurations:
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span> ********************************************************************************/
+</div><div class='ace_line'>    for (indx = 0; indx &#60; NUM_CHIRP_PROG; indx++)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    Cfg_ChirpCfgInitParams (indx, &#38;chirpCfg);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    retVal = rlSetChirpConfig(RL_DEVICE_MAP_INTERNAL_BSS, 1U, &#38;chirpCfg);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    if (retVal != RL_RET_CODE_OK)
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    System_printf (&#34;Error: Unable to configure chirp %d [Error %d]\n&#34;, indx, retVal);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    return -1;
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    }
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* Advanced Frame configuration. */
+</div><div class='ace_line'>    Cfg_AdvFrameCfgInitParams (&#38;advFrameCfg);
+</div><div class='ace_line'>    retVal = rlSetAdvFrameConfig(RL_DEVICE_MAP_INTERNAL_BSS, &#38;advFrameCfg);
+</div><div class='ace_line'>    if (retVal != RL_RET_CODE_OK)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    System_printf (&#34;Error: Advanced Frame configuration failed [Error %d]\n&#34;, retVal);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return -1;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'>    /* The link has been configured. */
+</div><div class='ace_line'>    gMrrMSSMCB.cfgStatus = true;
+</div><div class='ace_line'>    System_printf (&#34;Debug: MMWave has been configured for MRR.\n&#34;);
+</div><div class='ace_line'>    return 0;
+</div><div class='ace_line'>}
+</div><div class='ace_line'>
+</div><div class='ace_line'>```
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span>Cfg_ChannelCfgInitParams(&#38;openCfg.chCfg);<span class='ace_cjk' style='width:NaNpx'>分</span><span class='ace_cjk' style='width:NaNpx'>别</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>对</span><span class='ace_cjk' style='width:NaNpx'>天</span><span class='ace_cjk' style='width:NaNpx'>线</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>目</span><span class='ace_cjk' style='width:NaNpx'>进</span><span class='ace_cjk' style='width:NaNpx'>行</span><span class='ace_cjk' style='width:NaNpx'>参</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>置</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>里</span><span class='ace_cjk' style='width:NaNpx'>是</span>4<span class='ace_cjk' style='width:NaNpx'>发</span>3<span class='ace_cjk' style='width:NaNpx'>收</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>实</span><span class='ace_cjk' style='width:NaNpx'>现</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>通</span><span class='ace_cjk' style='width:NaNpx'>过</span><span class='ace_cjk' style='width:NaNpx'>左</span><span class='ace_cjk' style='width:NaNpx'>移</span><span class='ace_cjk' style='width:NaNpx'>操</span><span class='ace_cjk' style='width:NaNpx'>作</span><span class='ace_cjk' style='width:NaNpx'>和</span><span class='ace_cjk' style='width:NaNpx'>位</span><span class='ace_cjk' style='width:NaNpx'>或</span><span class='ace_cjk' style='width:NaNpx'>操</span><span class='ace_cjk' style='width:NaNpx'>作</span><span class='ace_cjk' style='width:NaNpx'>来</span><span class='ace_cjk' style='width:NaNpx'>实</span><span class='ace_cjk' style='width:NaNpx'>现</span><span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span>Cfg_LowPowerModeInitParams(&#38;openCfg.lowPowerMode);<span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>置</span><span class='ace_cjk' style='width:NaNpx'>为</span><span class='ace_cjk' style='width:NaNpx'>低</span><span class='ace_cjk' style='width:NaNpx'>功</span><span class='ace_cjk' style='width:NaNpx'>耗</span><span class='ace_cjk' style='width:NaNpx'>模</span><span class='ace_cjk' style='width:NaNpx'>式</span><span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span>Cfg_ADCOutCfgInitParams (&#38;openCfg.adcOutCfg)<span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>对</span>adc<span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>据</span><span class='ace_cjk' style='width:NaNpx'>参</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>进</span><span class='ace_cjk' style='width:NaNpx'>行</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>置</span><span class='ace_cjk' style='width:NaNpx'>，</span><span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>置</span><span class='ace_cjk' style='width:NaNpx'>为</span>16<span class='ace_cjk' style='width:NaNpx'>位</span><span class='ace_cjk' style='width:NaNpx'>的</span>complex<span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>据</span><span class='ace_cjk' style='width:NaNpx'>格</span><span class='ace_cjk' style='width:NaNpx'>式</span><span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>来</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span>MMWave_open()<span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>将</span><span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>备</span><span class='ace_cjk' style='width:NaNpx'>打</span><span class='ace_cjk' style='width:NaNpx'>开</span><span class='ace_cjk' style='width:NaNpx'>，</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>接</span><span class='ace_cjk' style='width:NaNpx'>下</span><span class='ace_cjk' style='width:NaNpx'>来</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span>profiles<span class='ace_cjk' style='width:NaNpx'>、</span>chirp<span class='ace_cjk' style='width:NaNpx'>、</span>frame<span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>配</span><span class='ace_cjk' style='width:NaNpx'>置</span>
+</div><div class='ace_line'>
+</div><div class='ace_line'>
+</div><div class='ace_line'>```c_cpp
+</div><div class='ace_line'>static int32_t MRR_MSS_CLISensorStart (int32_t argc, char* argv[])
+</div><div class='ace_line'>{
+</div><div class='ace_line'>    MMWave_CalibrationCfg   calibrationCfg;
+</div><div class='ace_line'>    int32_t                 errCode;
+</div><div class='ace_line'>
+</div><div class='ace_line'>    if (gMrrMSSMCB.runningStatus == true)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    /* Already running. */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return 0;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>    /* The sensor can only be started; if the link has been configured */
+</div><div class='ace_line'>    if (gMrrMSSMCB.cfgStatus == true)
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    /* Initialize the calibration configuration: */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    memset ((void *)&#38;calibrationCfg, 0, sizeof(MMWave_CalibrationCfg));
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    /* Populate the calibration configuration: */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    calibrationCfg.dfeDataOutputMode                          =
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    MMWave_DFEDataOutputMode_ADVANCED_FRAME;
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    calibrationCfg.u.chirpCalibrationCfg.enableCalibration    = true;
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    calibrationCfg.u.chirpCalibrationCfg.enablePeriodicity    = true;
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    calibrationCfg.u.chirpCalibrationCfg.periodicTimeInFrames = 10U;
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    System_printf (&#34;Debug: Sensor will start momentarily. \n&#34;);
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    /* Start the mmWave: */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    if (MMWave_start (gMrrMSSMCB.ctrlHandle, &#38;calibrationCfg, &#38;errCode) &#60; 0)
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    /* Error: Unable to start the mmWave control module */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    System_printf (&#34;Error: mmWave start failed [Error code %d]\n&#34;, errCode);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span>    return -1;
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    }
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    gMrrMSSMCB.runningStatus = true;
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return 0;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>    else
+</div><div class='ace_line'>    {
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    /* Invalid CLI use case; doing a sensor start without executing the basic or advanced configuration
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span><span class='ace_indent-guide'>    </span> * command. Inform the user and return an error code. */
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    System_printf (&#34;Error: Please ensure that the XXXCfg CLI command is invoked before starting the sensor\n&#34;);
+</div><div class='ace_line'><span class='ace_indent-guide'>    </span>    return -1;
+</div><div class='ace_line'>    }
+</div><div class='ace_line'>}
+</div><div class='ace_line'>
+</div><div class='ace_line'>```
+</div><div class='ace_line'>
+</div><div class='ace_line'><span class='ace_cjk' style='width:NaNpx'>这</span><span class='ace_cjk' style='width:NaNpx'>个</span><span class='ace_cjk' style='width:NaNpx'>函</span><span class='ace_cjk' style='width:NaNpx'>数</span><span class='ace_cjk' style='width:NaNpx'>的</span><span class='ace_cjk' style='width:NaNpx'>任</span><span class='ace_cjk' style='width:NaNpx'>务</span><span class='ace_cjk' style='width:NaNpx'>就</span><span class='ace_cjk' style='width:NaNpx'>是</span><span class='ace_cjk' style='width:NaNpx'>调</span><span class='ace_cjk' style='width:NaNpx'>用</span>MMWave_start()<span class='ace_cjk' style='width:NaNpx'>让</span>mmwave<span class='ace_cjk' style='width:NaNpx'>设</span><span class='ace_cjk' style='width:NaNpx'>备</span><span class='ace_cjk' style='width:NaNpx'>开</span><span class='ace_cjk' style='width:NaNpx'>始</span><span class='ace_cjk' style='width:NaNpx'>执</span><span class='ace_cjk' style='width:NaNpx'>行</span>
+</div></div></div></code></pre>
+
+        </article>
+      </body>
+      </html>
