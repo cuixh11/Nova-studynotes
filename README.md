@@ -11,6 +11,4 @@
 
 [恒虚警检测器CFAR学习笔记/恒虚警检测器CFAR学习笔记](恒虚警检测器CFAR学习笔记/恒虚警检测器CFAR学习笔记.md)
 
-[sdk环境搭建](s32ds sdk环境搭建/sdk环境搭建.md)
-
 新的懒得写了，直接转PDF了哈哈哈哈，见[allPDF](allPDF)
