@@ -22,7 +22,7 @@ subplot(3,3,4)
 dtft_in= -sin(m*n*2*pi/N)*1i+cos(m*n*2*pi/N);%;[1*256] 
 plot3(real(dtft_in),imag(dtft_in),z);
 
-m=50;   
+m=59;   
 subplot(3,3,5) 
 y1= -sin(m*n*2*pi/N)*1i+cos(m*n*2*pi/N)%;%;[1*256] 
 plot3(real(y1),imag(y1),z);
@@ -32,6 +32,7 @@ subplot(3,3,6)
 y2= -sin(m*n*2*pi/N)*1i+cos(m*n*2*pi/N);
 plot3(real(y2),imag(y2),z);
 %%
+%m=1:N;
 xya = abs(dtft_in * y1')%不加分号命令行可输出
 xyb = abs(dtft_in * y2')%abs取模值
 
@@ -43,8 +44,9 @@ plot(n,abs(dtft_out));
 
 
 %%
-%自动计算fft
+%自动计算fft,存在直流分量
 for k=1:1:256
+    
     x(k)=sin(0.1*k);
 end
 subplot(3,3,8) 
