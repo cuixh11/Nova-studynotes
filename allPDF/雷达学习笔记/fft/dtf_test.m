@@ -5,7 +5,7 @@ clear;
 n=1:256;       %n为时域离散信号的编号（取值范围为1~N                                                                          
 z=1:256;
 N=256;         %N为时域离散信号的点数
-m=1:N;
+m=1:256;
 
 figure(3);
 phaseComp= -sin( m'* n*2*pi/N)*1i + cos( m'*n*2*pi/N);
