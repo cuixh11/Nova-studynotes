@@ -28,8 +28,8 @@ figure(2);
 plot(n,xn);
 %视角一：计算DFT的过程中，将正/余弦表达式中的n作为自变量.
 % for m=0:255
-%       Xn = xn.*[cos(2*pi*m*n*1/Fs)-1j*sin(2*pi*m*n*1/Fs)]
-%       sum(Xn)
+%       Xn =[cos(2*pi*m*n*1/Fs)-1j*sin(2*pi*m*n*1/Fs)]; 
+%      sum(Xn)
 % end
 % m=2;
 % Xn = [cos(2*pi*m*n*1/Fs)-1j*sin(2*pi*m*n*1/Fs)]%Xn = x(n)*[cos(2*pi*m*n*1/Fs)-1j*sin(2*pi*m*n*1/Fs)]
@@ -39,14 +39,14 @@ plot(n,xn);
 %%
 Y = fft(xt,N);                % 做FFT变换，返回 N点 DFT。
 Ayy = (abs(Y));              % 取模
-figure(3);
+figure(4);
 plot(Ayy(1:N));              % 显示原始的FFT模值结果
 title('FFT 模值');
 
 Ayy=Ayy/(N/2);               % 换算成实际的幅度
 Ayy(1)=Ayy(1)/2;             %由于零频在双边谱中本没有被一分为二，所以对于零频外的点还有乘以2，得到的才是真实的频率幅值。
 F=([1:N]-1)*Fs/N;            % 换算成实际的频率值
-figure(4);
+figure(5);
 plot(F(1:N/2),Ayy(1:N/2));   % 显示换算后的FFT模值结果
 title('幅度-频率曲线图');
 
@@ -56,6 +56,6 @@ for i=[1:N/2]
 Pyy(i)=phase(Y(i));          % 计算相位
 Pyy(i)=Pyy(i)*180/pi;        % 换算为角度
 end
-figure(5);
+figure(6);
 plot(F(1:N/2),Pyy(1:N/2));   % 显示相位图
 title('相位-频率曲线图');
