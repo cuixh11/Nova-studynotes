@@ -9,8 +9,8 @@ P1=0;          % 信号1相位(度)
 P2=90;           % 信号2相位(度)
 N=256;           % 采样点数256
 t=[0:1/Fs:(N-1)/Fs]; % 采样时刻
-n=0:255;
-
+i=0:255;
+%  m=0:255;
 %%
 % 时域信号
 xt=Adc+A1*cos(2*pi*F1*t+pi*P1/180)+A2*sin(2*pi*F2*t+pi*P2/180);
@@ -23,17 +23,26 @@ title('原始信号');
 
 %%
 %离散信号
-xn=Adc+A1*cos(2*pi*F1*n*1/Fs+pi*P1/180)+A2*sin(2*pi*F2*n*1/Fs+pi*P2/180);
+xn=Adc+A1*cos(2*pi*F1*i*1/Fs+pi*P1/180)+A2*sin(2*pi*F2*i*1/Fs+pi*P2/180);
 figure(2);
-plot(n,xn);
+plot(i,xn);
 %视角一：计算DFT的过程中，将正/余弦表达式中的n作为自变量.
-% for m=0:255
-%       Xn =[cos(2*pi*m*n*1/Fs)-1j*sin(2*pi*m*n*1/Fs)]; 
-%      sum(Xn)
-% end
+e=1;
+m=0:255;
+      X0 =xn*[cos(2*pi*m'*e*1/Fs)-1j*sin(2*pi*m'*e*1/Fs)]  ;
+      EE=abs(X0);
+% e=1;
+%       X1 =xn*[cos(2*pi*m'*e*1/Fs)-1j*sin(2*pi*m'*e*1/Fs)]  ;
+% e=254;
+%       X254 =xn*[cos(2*pi*m'*e*1/Fs)-1j*sin(2*pi*m'*e*1/Fs)]  ;
+% e=255;
+%       X255 =xn*[cos(2*pi*m'*e*1/Fs)-1j*sin(2*pi*m'*e*1/Fs)]  ;
+
+%      figure(3);
+%      plot(abs(X0));
 % m=2;
 % Xn = [cos(2*pi*m*n*1/Fs)-1j*sin(2*pi*m*n*1/Fs)]%Xn = x(n)*[cos(2*pi*m*n*1/Fs)-1j*sin(2*pi*m*n*1/Fs)]
-% sum(Xn)
+% abs(Xn)
 
 
 %%
