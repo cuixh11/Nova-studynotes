@@ -38,30 +38,38 @@ x_forecast = zeros(4,1);
 z = zeros(4,1);
 
 for k = 1:len
-    % 1 ×´Ì¬Ô¤²â
+    % 1 ×´Ì¬
     x1 = x_hat(1) + x_hat(2)*Ts;
     vx1 = x_hat(2) + (-kx*x_hat(2)^2)*Ts;
     y1 = x_hat(3) + x_hat(4)*Ts;
     vy1 = x_hat(4) + (ky*x_hat(4)^2 - g)*Ts;
     x_forecast = [x1; vx1; y1; vy1];
-    % 2 ¹Û²âÔ¤²â
+    
+    % 2 ¹Û²â
     r = sqrt(x1 * x1 + y1 * y1);
     alpha = atan(x1/y1) * 57.3;
     y_yuce = [r, alpha]';
+    
     % ×´Ì¬¾ØÕó
     vx = x_forecast(2); vy = x_forecast(4);
-    F = zeros(4, 4);                                       %ÑÅ¿Ë±È¾ØÕó
-    F(1,1) = 1; F(1, 2) = Ts;
+    F = zeros(4, 4);                                       %×´Ì¬×ª»»¾ØÕóF
+    F(1,1) = 1; 
+    F(1, 2) = Ts;
     F(2,2) = 1 - 2*kx*vx*Ts;
-    F(3,3) = 1; F(3,4) = Ts;
+    F(3,3) = 1;
+    F(3,4) = Ts;
     F(4,4) = 1 + 2*ky*vy*Ts;
     Pkk_1 = F*Pk*F' + Qk;
+    
     % ¹Û²â¾ØÕó
     x = x_forecast(1); y = x_forecast(3);
     H = zeros(2, 4);
     r = sqrt(x^2 + y^2); xy2 = 1 + (x / y) ^2;
-    H(1,1) = x/r; H(1,3) = y / r;
-    H(2,1) = (1/y)/xy2; H(2,3) = (-x/y^2)/xy2;              %×ª»»¾ØÕó
+    H(1,1) = x/r;
+    H(1,3) = y / r;
+    H(2,1) = (1/y)/xy2; 
+    H(2,3) = (-x/y^2)/xy2;              %ÑÅ¿É±È¾ØÕó
+    
     % ¸üÐÂ¾ØÕó
     Kk = Pkk_1 * H' * (H * Pkk_1 * H' + Rk)^-1;             %¿¨¶ûÂüÔöÒæ
     x_hat = x_forecast + Kk*(Z(k,:)' - y_yuce);             %Ô¤²âÖµÐ£Õý
