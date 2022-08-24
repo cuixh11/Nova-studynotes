@@ -30,7 +30,7 @@ Vb_binnum = mod(round(vreal/Vb_res),128);
        for j=1:1:10
         V_cha = abs(Vout_real(1,i) - Vout_real(2,j)); %算差值
          if(abs(Vout_real(1,i)) < 80) && (abs(Vout_real(2,j)) < 80) 
-            if(V_cha <min_V)
+            if(V_cha<min_V)
                min_V =  V_cha;  %取速度差值最小
                out_V = Vout_real(1,i); %取差值最小的速度解
             end
